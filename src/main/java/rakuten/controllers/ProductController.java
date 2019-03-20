@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import rakuten.domain.Product;
+import rakuten.exceptions.BadCategoryException;
 import rakuten.services.ProductService;
 
 @RestController
@@ -43,6 +44,9 @@ public class ProductController {
     @ResponseStatus(HttpStatus.OK)
     public Product updateCategory(@PathVariable( "id") Long id, @PathVariable( "category_id") String categoryId) throws Exception {
 
+        if (categoryId == null || categoryId.isEmpty()){
+            throw new BadCategoryException("category id is mandatory");
+        }
 
         return productService.update(id, categoryId);
 
